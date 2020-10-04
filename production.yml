@@ -14,6 +14,8 @@ services:
     depends_on:
       - postgres
       - redis
+    volumes:
+      - ./"${CSV_IMPORT_DIR}":/"${CSV_IMPORT_DIR}":z
     env_file:
       - ./.envs/.production/.django
       - ./.envs/.production/.postgres
@@ -62,4 +64,4 @@ services:
     image: coordmanager_production_flower
     command: /start-flower
 
-  
+
