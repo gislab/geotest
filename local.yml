@@ -13,12 +13,12 @@ services:
     container_name: coordmanager_django
     depends_on:
       - postgres
-    volumes:
-      - .:/app:z
-      - ./"${CSV_IMPORT_DIR}":/"${CSV_IMPORT_DIR}":z
     env_file:
       - ./.envs/.local/.django
       - ./.envs/.local/.postgres
+    volumes:
+      - .:/app:z
+      - ./"${CSV_IMPORT_DIR}":/"${CSV_IMPORT_DIR}":z
     ports:
       - "8000:8000"
     command: /start
@@ -82,3 +82,11 @@ services:
     ports:
       - "5555:5555"
     command: /start-flower
+
+  jupyter:
+    <<: *django
+    image: coordmanager_local_jupyter
+    container_name: coordmanager_jupyter
+    ports:
+      - "8888:8888"
+    command: /start-jupyter

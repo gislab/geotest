@@ -65,3 +65,12 @@ INSTALLED_APPS += ["django_extensions"]  # noqa F405
 # http://docs.celeryproject.org/en/latest/userguide/configuration.html#task-eager-propagates
 CELERY_TASK_EAGER_PROPAGATES = True
 # ------------------------------------------------------------------------------
+
+# jupyter notebook arguments
+# https://django-extensions.readthedocs.io/en/latest/shell_plus.html#ipython-notebook
+NOTEBOOK_ARGUMENTS = [
+    '--ip', '0.0.0.0',
+    '--port', '8888',
+    '--allow-root',
+    '--no-browser'
+]

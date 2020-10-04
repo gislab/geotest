@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+# https://stackoverflow.com/questions/59119396/how-to-use-django-3-0-orm-in-a-jupyter-notebook-without-triggering-the-async-con:w
+env DJANGO_ALLOW_ASYNC_UNSAFE=true python manage.py shell_plus --notebook
