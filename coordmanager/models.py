@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from .managers import CoordinateManager
 
 class Coordinate(models.Model):
     """
@@ -7,6 +8,7 @@ class Coordinate(models.Model):
     """
     x = models.FloatField(help_text=_("longitude"))
     y = models.FloatField(help_text=_("latitude"))
+    objects = CoordinateManager()
 
     class Meta:
         verbose_name = _("coordinate")
