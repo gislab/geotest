@@ -4,6 +4,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from .managers import CoordinateManager
+from .signals import request_user_job_evaluated
 
 
 class Coordinate(models.Model):
@@ -95,6 +96,7 @@ class UserRequestJob(models.Model):
     def evaluate_result(self, commit=False):
         self.evaluation_datetime = timezone.now()
         self.results = self.get_results()
+        request_user_job_evaluated.send(sender=self.__class__, instance=self)
         if commit is True:
             self.save()
 
