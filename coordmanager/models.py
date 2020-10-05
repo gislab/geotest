@@ -1,8 +1,10 @@
 from django.contrib.auth import get_user_model
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from .managers import CoordinateManager
+
 
 class Coordinate(models.Model):
     """
@@ -22,7 +24,7 @@ class Coordinate(models.Model):
 
 class UserRequestJob(models.Model):
     """
-    Store the nearest or farthest
+    Calculate and Store the nearest or farthest
     points to user submitted coordinates
     """
     NEAREST = 'N'
@@ -77,6 +79,24 @@ class UserRequestJob(models.Model):
     @property
     def status(self):
         return self.EVALUATED if self.evaluation_datetime is not None else self.PENDING
+
+    def get_results(self):
+        qs = Coordinate.objects.distance(self.x, self.y)
+        if self.operation == self.NEAREST:
+            qs = qs.order_by('distance')
+        else:
+            qs = qs.order_by('-distance')
+
+        results = []
+        for coordinate in qs[0:self.num_point]:
+            results.append((coordinate.x, coordinate.y))
+        return results
+
+    def evaluate_result(self, commit=False):
+        self.evaluation_datetime = timezone.now()
+        self.results = self.get_results()
+        if commit is True:
+            self.save()
 
     def __str__(self):
         return 'coordinate(id=%s, user_id=%s, request_date=%s, status=%s)' % (
