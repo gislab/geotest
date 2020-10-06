@@ -7,6 +7,14 @@ exercise for geosolution
 Basic Commands
 --------------
 
+Import data from CSV file
+^^^^^^^^^^^^^^^^^^^^^
+
+* To load data from CSV file, use this command::
+
+    $ python manage.py import_coordinates <file_name>
+
+
 Type checks
 ^^^^^^^^^^^
 

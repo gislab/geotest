@@ -46,6 +46,7 @@ services:
     volumes:
       - ./docs:/docs:z
       - ./config:/app/config:z
+      - ./coordmanager:/app/coordmanager:z
     ports:
       - "7000:7000"
 
